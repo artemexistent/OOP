@@ -3,7 +3,7 @@ package Lab_1;
 import java.util.Vector;
 
 public class Graph {
-    private final Vector < Vector < Pair<Integer,Integer> > >  next;
+    private final Vector  < Vector < Pair<Integer,Integer> > >  next;
     private final Vector <Boolean> used;
     public Vector <Integer> distance;
 
@@ -19,7 +19,7 @@ public class Graph {
         }
     }
 
-    private void dfs(int x){
+    public void dfs(int x){
         used.set(x,false);
         for (int i=0;i<next.get(x).size();i++){
             if (used.get(next.get(x).get(i).first))
@@ -79,7 +79,7 @@ public class Graph {
         used.set(x,true);
     }
 
-    public void distance_2(int x){
+    public String distance_2(int x){
         distance = new Vector<>(0);
         for (int i=0;i< next.size();i++) {
             distance.addElement(Integer.MAX_VALUE);
@@ -87,13 +87,20 @@ public class Graph {
         }
         distance.set(x,0);
         deicstra(x);
+        String ans = "";
         for (int i=0;i< next.size();i++){
-            System.out.println(i + " = " + distance.get(i));
+            ans += i + " = " + distance.get(i) + "\n";
         }
+        return ans;
     }
 
     public void push_edge(int x, Pair<Integer, Integer> y){
         next.get(x).addElement(y);
+        int p = x;
+        x = y.first;
+        Pair <Integer, Integer> t = new Pair<Integer, Integer>();
+        t.make_pair(p,y.second);
+        next.get(x).addElement(t);
     }
 
     public void push_vertex(){
@@ -101,26 +108,29 @@ public class Graph {
         next.addElement(p);
     }
 
-    public void write(){
+    public String write(){
+        String ans = "";
         for (int i=0;i<next.size();i++){
-            System.out.print(i+":\t");
+            ans += i+ ":  " ;
             for (int j=0;j<next.get(i).size();j++){
-                System.out.print(next.get(i).get(j)+" ");
+                ans += next.get(i).get(j).first + " ";
             }
-            System.out.println(" ");
+            ans += "\n";
         }
+        return ans;
     }
 
     public void delete_edge(int x, int y){
         int kol=-1;
-        for (int i=0;i<next.get(x).size();i++){
+        int i = 0;
+        for (i=0;i<next.get(x).size();i++){
             if (next.get(x).get(i).first==y){
                 kol=i;
                 break;
             }
         }
         if (kol!=-1)
-            next.get(x).remove(y);
+            next.get(x).remove(i);
     }
 
     public void delete_vertex(int x){

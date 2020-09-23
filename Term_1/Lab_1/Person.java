@@ -11,4 +11,11 @@ public class Person{
         book = new Vector<>(0);
     }
 
+    public String write(){
+        String ans = "";
+        for (int i=0;i<name.size();i++){
+            ans += "Name Book: " + book.get(i).first.name + "\nName: " + name.get(i) + "\nRole" + book.get(i).second + "\n\n\n";
+        }
+        return ans;
+    }
 }

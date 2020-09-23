@@ -2,7 +2,7 @@ package Lab_1;
 
 import java.util.Vector;
 
-public class GraphMatrix {
+public class GraphMatrix{
     private final Vector <Vector< Integer >>  next;
     private final Vector <Boolean> used;
     public Vector <Integer> distance;
@@ -81,7 +81,7 @@ public class GraphMatrix {
         used.set(x,true);
     }
 
-    public void distance_2(int x){
+    public String distance_2(int x){
         distance = new Vector<>(0);
         for (int i=0;i< next.size();i++) {
             distance.addElement(Integer.MAX_VALUE);
@@ -89,13 +89,16 @@ public class GraphMatrix {
         }
         distance.set(x,0);
         deicstra(x);
+        String ans = "";
         for (int i=0;i< next.size();i++){
-            System.out.println(i + " = " + distance.get(i));
+            ans += i + " = " + distance.get(i) + "\n";
         }
+        return ans;
     }
 
     public void push_edge(int x, int y, int z){
         next.get(x).set(y,z);
+        next.get(y).set(x,y);
     }
 
     public void push_vertex(){
@@ -107,14 +110,16 @@ public class GraphMatrix {
             next.get(i).addElement(0);
     }
 
-    public void write(){
+    public String write(){
+        String ans= "";
         for (int i=0;i<next.size();i++){
-            System.out.print(i+":\t");
+            ans += i+":\t";
             for (int j=0;j<next.get(i).size();j++){
-                System.out.print(next.get(i).get(j)+" ");
+                ans += next.get(i).get(j)+" ";
             }
-            System.out.println(" ");
+            ans += "\n";
         }
+        return ans;
     }
 
     public void delete_edge(int x, int y){

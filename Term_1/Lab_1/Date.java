@@ -7,12 +7,12 @@ public class Date {
 
     Date (String s){
         int i=0;
-        while (s.charAt(i) != '.'){
+        while (s.length()>i && s.charAt(i) != '.'){
             day = (day * 10) + (s.charAt(i) - '0');
             i++;
         }
         i++;
-        while (s.charAt(i) != '.'){
+        while (s.length()>i && s.charAt(i) != '.'){
             month = (month * 10) + (s.charAt(i) - '0');
             i++;
         }

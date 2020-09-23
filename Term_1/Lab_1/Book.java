@@ -19,8 +19,11 @@ public class Book {
         ID = i;
     }
 
-    public void write_book(){
-        System.out.print("\nID: " + ID + "\tНазвание: " + name + "\tАвтор: " + writer);
+    public String write_book(){
+        String ans = "";
+        ans = "ID: " + ID + "\nНазвание: " + name + "\nАвтор: " + writer + "\nДата выхода: " + release.day + "." + release.month + "." + release.year +
+                "\nКоличество страниц: " + sides + "\nАннотация: " + summary;
+        return ans;
     }
 
 }

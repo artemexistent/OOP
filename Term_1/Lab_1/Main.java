@@ -1,5 +1,6 @@
 package Lab_1;
 
+import javax.swing.*;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -28,6 +29,7 @@ public class Main {
         graph.delete_vertex(2);
         graph.write();
         */
+        /*
          System.out.print("Введите количество книг: ");
          int n = Integer.parseInt(in.nextLine());
          Vector <Book> books = new Vector<>(0);
@@ -81,7 +83,7 @@ public class Main {
                 p.add_book(persons.get(i).book.get(j).first);
             series.addElement(p);
         }
-
+        */
     }
 }
 
