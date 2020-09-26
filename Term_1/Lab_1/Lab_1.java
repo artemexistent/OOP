@@ -10,6 +10,8 @@ public class Lab_1 {
     private JPanel panel1;
     private JButton book210Button;
 
+
+
     public Lab_1() {
         graph17Button.addActionListener(new ActionListener() {
             @Override
