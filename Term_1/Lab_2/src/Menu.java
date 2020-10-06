@@ -1,6 +1,6 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,6 +10,7 @@ public class Menu {
     private JTabbedPane tabbedPane1;
     private JTextPane textPane1;
     private JButton createButton;
+    private JTable table1;
 
 
     public Menu() {
@@ -21,8 +22,10 @@ public class Menu {
                 Main.notes.addElement(new Note(noties, LocalDate.now(), LocalTime.now()));
                 String massage = "This note was added!";
                 JOptionPane.showMessageDialog(null, massage, "Output",JOptionPane.PLAIN_MESSAGE);
+                table1.setModel(new DefaultTableModel(Main.getNotesArr(), new String[]{"Time","Date"}));
             }
         });
+
     }
 
     public void start(){
@@ -31,4 +34,12 @@ public class Menu {
         frame.pack();
         frame.setVisible(true);
     }
+
+//    private void createTable(){
+//        table1.setModel(new DefaultTableModel(
+//                null,
+//                new String[]{"Time","Date"}
+//        ));
+//    }
+
 }
