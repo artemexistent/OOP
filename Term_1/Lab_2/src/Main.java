@@ -12,7 +12,8 @@ public class Main {
     public static Object[][] getNotesArr(){
         Object [][] ans = new Object[notes.size()][3];
         for (int i=0;i<notes.size();i++){
-            ans[i][0]=notes.get(i).note.substring(0,10) + "...";
+            ans[i][0]=notes.get(i).note.substring(0,Math.min(10,notes.get(i).note.length()-1));
+            if (notes.get(i).note.length()-1>10){ans[i][0] += "...";};
             ans[i][2]=notes.get(i).date;
             ans[i][1]=notes.get(i).time;
         }
