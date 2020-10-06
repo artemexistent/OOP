@@ -65,9 +65,11 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="f7f81" class="javax.swing.JTable" binding="table1" default-binding="true">
+                  <component id="f7f81" class="javax.swing.JTable" binding="table1">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <autoCreateRowSorter value="false"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>

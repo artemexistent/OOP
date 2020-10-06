@@ -1,15 +1,17 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Menu {
-    private final JFrame frame = new JFrame();
+    public static JFrame frame = new JFrame();
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JButton createButton;
-    private JTable table1;
+    public JTable table1;
     private JTextArea textArea1;
 
 
@@ -26,6 +28,19 @@ public class Menu {
             }
         });
 
+        table1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting() && table1.getSelectedRow()!=-1) {
+                    NoteWrite app = new NoteWrite(e.getFirstIndex());
+                    app.start(e.getFirstIndex());
+                }
+            }
+        });
+
+
+
+
     }
 
     public void start(){
@@ -34,5 +49,6 @@ public class Menu {
         frame.pack();
         frame.setVisible(true);
     }
+
 
 }

@@ -4,8 +4,10 @@ public class Main {
 
     public static Vector <Note> notes = new Vector<>(0);
 
+    public static Menu app;
+
     public static void main(String []args){
-        Menu app = new Menu();
+        app = new Menu();
         app.start();
     }
 

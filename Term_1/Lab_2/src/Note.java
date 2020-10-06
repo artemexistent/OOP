@@ -12,4 +12,12 @@ public class Note {
         time = t;
     }
 
+    public String write(){
+        String ans = "<html>";
+        ans += note + "<br/>";
+        ans += time.toString() + "<br/>";
+        ans += date.toString() + "</html>";
+        return ans;
+    }
+
 }
