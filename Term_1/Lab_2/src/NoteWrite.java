@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,7 +29,7 @@ public class NoteWrite {
                     Main.notes.remove(i);
                 else Main.archive.remove(i);
                 frame.dispose();
-                JOptionPane.showMessageDialog(null,"Deleted","Output",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Deleted","System alert",JOptionPane.PLAIN_MESSAGE);
             }
         });
         archivingButton.addActionListener(new ActionListener() {
@@ -40,7 +39,7 @@ public class NoteWrite {
                 Main.sort(Main.archive);
                 Main.notes.remove(i);
                 frame.dispose();
-                JOptionPane.showMessageDialog(null,"Archived","Output",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Archived","System alert",JOptionPane.PLAIN_MESSAGE);
             }
         });
         reestablishButton.addActionListener(new ActionListener() {
@@ -50,7 +49,7 @@ public class NoteWrite {
                 Main.sort(Main.notes);
                 Main.archive.remove(i);
                 frame.dispose();
-                JOptionPane.showMessageDialog(null,"Reestablished","Output",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Reestablished","System alert",JOptionPane.PLAIN_MESSAGE);
             }
         });
     }

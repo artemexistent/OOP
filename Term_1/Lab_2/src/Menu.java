@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Menu {
-    public static JFrame frame = new JFrame();
+    public static JFrame frame = new JFrame("Notes");
     private JPanel panel1;
     private JTabbedPane tabbedPane1;
     private JButton createButton;
@@ -26,7 +26,7 @@ public class Menu {
                 textArea1.setText(null);
                 Main.notes.addElement(new Note(noties, LocalDate.now(), LocalTime.now()));
                 String massage = "This note was added!";
-                JOptionPane.showMessageDialog(null, massage, "Output",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, massage, "System alert",JOptionPane.PLAIN_MESSAGE);
                 table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
             }
         });
