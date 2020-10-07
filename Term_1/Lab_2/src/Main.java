@@ -24,4 +24,22 @@ public class Main {
         return ans;
     }
 
+    public static void sort(Vector <Note> a){
+        Note p = a.get(a.size()-1);
+        int kol = -1;
+        for (Note i : a){
+            kol++;
+            if (i.date.getDayOfYear() < p.date.getDayOfYear()){
+                continue;
+            }
+            if (p.date.getDayOfYear() == i.date.getDayOfYear()){
+                if (p.time.getNano() <= i.time.getNano())
+                    break;
+            }else break;
+        }
+        for (int j=a.size()-1;j>kol;j--)
+            a.set(j,a.get(j-1));
+        a.set(kol,p);
+    }
+
 }

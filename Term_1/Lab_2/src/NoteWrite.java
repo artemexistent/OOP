@@ -21,6 +21,8 @@ public class NoteWrite {
         archivingButton.setVisible(f);
         reestablishButton.setVisible(!f);
 
+
+
         deletingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,9 +37,20 @@ public class NoteWrite {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.archive.addElement(Main.notes.get(i));
+                Main.sort(Main.archive);
                 Main.notes.remove(i);
                 frame.dispose();
                 JOptionPane.showMessageDialog(null,"Archived","Output",JOptionPane.PLAIN_MESSAGE);
+            }
+        });
+        reestablishButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.notes.addElement(Main.archive.get(i));
+                Main.sort(Main.notes);
+                Main.archive.remove(i);
+                frame.dispose();
+                JOptionPane.showMessageDialog(null,"Reestablished","Output",JOptionPane.PLAIN_MESSAGE);
             }
         });
     }
