@@ -13,6 +13,9 @@ public class Menu {
     private JButton createButton;
     public JTable table1;
     private JTextArea textArea1;
+    private JButton reloadButton;
+    private JTable table2;
+    private JButton reloadButton1;
 
 
     public Menu() {
@@ -24,7 +27,7 @@ public class Menu {
                 Main.notes.addElement(new Note(noties, LocalDate.now(), LocalTime.now()));
                 String massage = "This note was added!";
                 JOptionPane.showMessageDialog(null, massage, "Output",JOptionPane.PLAIN_MESSAGE);
-                table1.setModel(new DefaultTableModel(Main.getNotesArr(), new String[]{"Note","Time","Date"}));
+                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
             }
         });
 
@@ -32,15 +35,36 @@ public class Menu {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting() && table1.getSelectedRow()!=-1) {
-                    NoteWrite app = new NoteWrite(e.getFirstIndex());
-                    app.start(e.getFirstIndex());
+                    NoteWrite app = new NoteWrite(e.getFirstIndex(),true);
+                    app.start(e.getFirstIndex(),true);
                 }
             }
         });
 
 
+        reloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
+            }
+        });
 
+        reloadButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table2.setModel(new DefaultTableModel(Main.getArr(Main.archive), new String[]{"Note","Time","Date"}));
+            }
+        });
 
+        table2.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting() && table2.getSelectedRow()!=-1) {
+                    NoteWrite app = new NoteWrite(e.getFirstIndex(),false);
+                    app.start(e.getFirstIndex(),false);
+                }
+            }
+        });
     }
 
     public void start(){

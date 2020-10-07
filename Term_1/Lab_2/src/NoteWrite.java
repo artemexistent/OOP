@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,32 +8,42 @@ public class NoteWrite {
     private JButton deletingButton;
     private JButton archivingButton;
     private JLabel lable;
+    private JButton reestablishButton;
     public static final JFrame frame = new JFrame();
 
 
-    public NoteWrite(int i) {
+    public NoteWrite(int i, boolean f) {
 
-        lable.setText(Main.notes.get(i).write());
+        if (f)
+            lable.setText(Main.notes.get(i).write());
+        else lable.setText(Main.archive.get(i).write());
+
+        archivingButton.setVisible(f);
+        reestablishButton.setVisible(!f);
 
         deletingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.notes.remove(i);
+                if (f)
+                    Main.notes.remove(i);
+                else Main.archive.remove(i);
                 frame.dispose();
                 JOptionPane.showMessageDialog(null,"Deleted","Output",JOptionPane.PLAIN_MESSAGE);
-                Main.app.table1.setModel(new DefaultTableModel(Main.getNotesArr(), new String[]{"Note","Time","Date"}));
             }
         });
         archivingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Main.archive.addElement(Main.notes.get(i));
+                Main.notes.remove(i);
+                frame.dispose();
+                JOptionPane.showMessageDialog(null,"Archived","Output",JOptionPane.PLAIN_MESSAGE);
             }
         });
     }
 
-    public void start(int i){
-        frame.setContentPane(new NoteWrite(i).panel1);
+    public void start(int i, boolean f){
+        frame.setContentPane(new NoteWrite(i,f).panel1);
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
