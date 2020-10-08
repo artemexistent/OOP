@@ -5,11 +5,13 @@ public class Note {
     String note;
     LocalDate date;
     LocalTime time;
+    String type;
 
-    Note(String s, LocalDate d, LocalTime t){
+    Note(String s, LocalDate d, LocalTime t, String s2){
         note = s;
         date = d;
         time = t;
+        type = s2;
     }
 
     public String write(){
@@ -19,6 +21,7 @@ public class Note {
         ans += date.toString() + "</html>";
         return ans;
     }
+
 
 
 }

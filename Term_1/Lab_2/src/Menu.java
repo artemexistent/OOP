@@ -19,6 +19,8 @@ public class Menu {
     private JButton reloadButton1;
     public JComboBox<String> comboBox1;
     private JButton reloadButton2;
+    private JComboBox comboBox2;
+    private JComboBox comboBox3;
     public static Vector<String> box;
     private static Boolean f = true;
 
@@ -32,12 +34,12 @@ public class Menu {
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String noties =  textArea1.getText();
+                String noties = textArea1.getText();
                 textArea1.setText(null);
-                Main.notes.addElement(new Note(noties, LocalDate.now(), LocalTime.now()));
+                Main.notes.addElement(new Note(noties, LocalDate.now(), LocalTime.now(),box.get(comboBox1.getSelectedIndex())));
                 String massage = "This note was added!";
                 JOptionPane.showMessageDialog(null, massage, "System alert",JOptionPane.PLAIN_MESSAGE);
-                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
+//                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
             }
         });
 
@@ -55,14 +57,30 @@ public class Menu {
         reloadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes), new String[]{"Note","Time","Date"}));
+                f=false;
+                if (comboBox3.getItemCount() + 1 != box.size()) {
+                    comboBox3.removeAllItems();
+                    for (String i : box)
+                        comboBox3.addItem(i);
+                    comboBox3.removeItemAt(box.size() - 1);
+                }
+                f=true;
+                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes,box.get(comboBox3.getSelectedIndex())), new String[]{"Note","Time","Date"}));
             }
         });
 
         reloadButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                table2.setModel(new DefaultTableModel(Main.getArr(Main.archive), new String[]{"Note","Time","Date"}));
+                f=false;
+                if (comboBox2.getItemCount() + 1 != box.size()) {
+                    comboBox2.removeAllItems();
+                    for (String i : box)
+                        comboBox2.addItem(i);
+                    comboBox2.removeItemAt(box.size() - 1);
+                }
+                f=true;
+                table2.setModel(new DefaultTableModel(Main.getArr(Main.archive,box.get(comboBox2.getSelectedIndex())), new String[]{"Note","Time","Date"}));
             }
         });
 

@@ -13,13 +13,23 @@ public class Main {
         app.start();
     }
 
-    public static Object[][] getArr(Vector <Note> a){
-        Object [][] ans = new Object[a.size()][3];
+    public static Object[][] getArr(Vector <Note> a, String s){
+        int kol = 0;
+        for (Note i : a)
+            if (i.type.equals(s))
+                kol++;
+        Object [][] ans = new Object[kol][3];
+        kol = 0;
         for (int i=0;i<a.size();i++){
-            ans[i][0]=a.get(i).note.substring(0,Math.min(10,a.get(i).note.length()-1));
-            if (a.get(i).note.length()-1>10){ans[i][0] += "...";};
-            ans[i][2]=a.get(i).date;
-            ans[i][1]=a.get(i).time;
+            if (a.get(i).type.equals(s)) {
+                ans[kol][0] = a.get(i).note.substring(0, Math.min(10, a.get(i).note.length() - 1));
+                if (a.get(i).note.length() - 1 > 10) {
+                    ans[kol][0] += "...";
+                }
+                ans[kol][2] = a.get(i).date;
+                ans[kol][1] = a.get(i).time;
+                kol++;
+            }
         }
         return ans;
     }
