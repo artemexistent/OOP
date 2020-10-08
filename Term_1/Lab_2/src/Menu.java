@@ -21,6 +21,9 @@ public class Menu {
     private JButton reloadButton2;
     private JComboBox comboBox2;
     private JComboBox comboBox3;
+    private JTable table3;
+    private JTextField textField1;
+    private JButton findButton;
     public static Vector<String> box;
     private static Boolean f = true;
 
@@ -47,12 +50,42 @@ public class Menu {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting() && table1.getSelectedRow()!=-1) {
-                    NoteWrite app = new NoteWrite(e.getFirstIndex(),true);
-                    app.start(e.getFirstIndex(),true);
+                    int kol = -1;
+                    for (int i=0;i<Main.notes.size();i++)
+                        if (Main.notes.get(i).type.equals(comboBox3.getItemAt(comboBox3.getSelectedIndex()))) {
+                            kol++;
+                            if (kol == e.getFirstIndex()) {
+                                NoteWrite app = new NoteWrite(i,true);
+                                app.start(i, true);
+                                break;
+                            }
+                        }
                 }
             }
         });
 
+
+        table3.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting() && table3.getSelectedRow()!=-1) {
+
+                    for (int i=0;i<Main.notes.size() && Main.na[e.getFirstIndex()][4].equals("base") ;i++)
+                        if (Main.na[e.getFirstIndex()][1] == Main.notes.get(i).time) {
+                            NoteWrite app = new NoteWrite(i,true);
+                            app.start(i, true);
+                            break;
+                        }
+
+                    for (int i=0;i<Main.archive.size() && Main.na[e.getFirstIndex()][4].equals("archive") ;i++)
+                        if (Main.na[e.getFirstIndex()][1] == Main.archive.get(i).time) {
+                            NoteWrite app = new NoteWrite(i,false);
+                            app.start(i, false);
+                            break;
+                        }
+                }
+            }
+        });
 
         reloadButton.addActionListener(new ActionListener() {
             @Override
@@ -88,8 +121,16 @@ public class Menu {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (e.getValueIsAdjusting() && table2.getSelectedRow()!=-1) {
-                    NoteWrite app = new NoteWrite(e.getFirstIndex(),false);
-                    app.start(e.getFirstIndex(),false);
+                    int kol = -1;
+                    for (int i=0;i<Main.archive.size();i++)
+                        if (Main.archive.get(i).type.equals(comboBox2.getItemAt(comboBox2.getSelectedIndex()))) {
+                            kol++;
+                            if (kol == e.getFirstIndex()) {
+                                NoteWrite app = new NoteWrite(i,false);
+                                app.start(i, false);
+                                break;
+                            }
+                        }
                 }
             }
         });
@@ -111,6 +152,13 @@ public class Menu {
                 for (String i : box)
                     comboBox1.addItem(i);
                 f=true;
+            }
+        });
+        findButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table3.setModel(new DefaultTableModel(Main.getArr(new Vector<>(0),new Vector<>(0),textField1.getText()),
+                        new String[]{"Note","Time","Date","Type","Folder"}));
             }
         });
     }
