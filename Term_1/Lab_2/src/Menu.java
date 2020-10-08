@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Vector;
 
 public class Menu {
     public static JFrame frame = new JFrame("Notes");
@@ -16,9 +17,18 @@ public class Menu {
     private JButton reloadButton;
     private JTable table2;
     private JButton reloadButton1;
-
+    public JComboBox<String> comboBox1;
+    private JButton reloadButton2;
+    public static Vector<String> box;
+    private static Boolean f = true;
 
     public Menu() {
+        box = new Vector<>(0);
+        box.addElement("All");
+        box.addElement("Add new...");
+        comboBox1.setEditable(false);
+        comboBox1.setSelectedIndex(0);
+
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,6 +75,26 @@ public class Menu {
                 }
             }
         });
+        comboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (comboBox1.getSelectedIndex() == comboBox1.getItemCount() - 1 && f){
+                    ComboBox app = new ComboBox();
+                    app.start();
+                    if (comboBox1.getItemCount()!=0) comboBox1.setSelectedIndex(0);
+                }
+            }
+        });
+        reloadButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f=false;
+                comboBox1.removeAllItems();
+                for (String i : box)
+                    comboBox1.addItem(i);
+                f=true;
+            }
+        });
     }
 
     public void start(){
@@ -73,6 +103,5 @@ public class Menu {
         frame.pack();
         frame.setVisible(true);
     }
-
 
 }
