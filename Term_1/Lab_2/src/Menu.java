@@ -19,8 +19,8 @@ public class Menu {
     private JButton reloadButton1;
     public JComboBox<String> comboBox1;
     private JButton reloadButton2;
-    private JComboBox comboBox2;
-    private JComboBox comboBox3;
+    private JComboBox<String> comboBox2;
+    private JComboBox<String> comboBox3;
     private JTable table3;
     private JTextField textField1;
     private JButton findButton;
@@ -159,6 +159,34 @@ public class Menu {
             public void actionPerformed(ActionEvent e) {
                 table3.setModel(new DefaultTableModel(Main.getArr(new Vector<>(0),new Vector<>(0),textField1.getText()),
                         new String[]{"Note","Time","Date","Type","Folder"}));
+            }
+        });
+        comboBox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f=false;
+                if (comboBox3.getItemCount() + 1 != box.size()) {
+                    comboBox3.removeAllItems();
+                    for (String i : box)
+                        comboBox3.addItem(i);
+                    comboBox3.removeItemAt(box.size() - 1);
+                }
+                f=true;
+                table1.setModel(new DefaultTableModel(Main.getArr(Main.notes,box.get(comboBox3.getSelectedIndex())), new String[]{"Note","Time","Date"}));
+            }
+        });
+        comboBox2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                f=false;
+                if (comboBox2.getItemCount() + 1 != box.size()) {
+                    comboBox2.removeAllItems();
+                    for (String i : box)
+                        comboBox2.addItem(i);
+                    comboBox2.removeItemAt(box.size() - 1);
+                }
+                f=true;
+                table2.setModel(new DefaultTableModel(Main.getArr(Main.archive,box.get(comboBox2.getSelectedIndex())), new String[]{"Note","Time","Date"}));
             }
         });
     }
