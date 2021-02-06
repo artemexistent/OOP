@@ -8,6 +8,7 @@ class MatrixGraph implements Graph {
     int matrix[][];
 }
 
+
 class ListGraph implements Graph {
     Vector<Vector<int[]>> list;
 }
