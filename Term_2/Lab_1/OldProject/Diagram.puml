@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor User
+
+User -> Main
+
+control  Header.h
+
+Main --> Header.h : Algorithm call
+Header.h -> Inter
+Inter --> Header.h : Algorithm call
+Header.h --> Algo : call
+
+Algo -> User : Result
+@enduml
