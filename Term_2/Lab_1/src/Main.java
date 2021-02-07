@@ -20,12 +20,18 @@ public class Main {
             graph.insertRib(x, y, z);
         }
 
-        System.out.println("1. Searching for connectivity components\n" + "");
+        System.out.println("1. Searching for connectivity components\n" + "2. Dijkstra’s algorithm\n");
 
         int key = scanner.nextInt();
         switch (key) {
             case 1:
                 System.out.print("Number of components = " + searchComponents(graph));
+                break;
+            case 2:
+                System.out.print("Enter the initial vertex:");
+                int vertex = scanner.nextInt();;
+                distanceSearch(graph, vertex);
+                break;
         }
 
     }
@@ -47,5 +53,21 @@ public class Main {
         return numberOfComponents;
     }
 
+    static void distanceSearch(Graph graph, int vertex) {
+        boolean[] used = new boolean[graph.getSize()];
+        int[] distance = new int[used.length];
+        for (int i = 0; i < used.length; i++) {
+            used[i] = false;
+            distance[i] = Integer.MAX_VALUE;
+        }
+
+        distance[vertex] = 0;
+
+        graph.dijkstra(vertex, used, distance);
+        System.out.printf("The distance from %d to all other vertices:\n", vertex);
+        for (int j : distance) {
+            System.out.print(j + " ");
+        }
+    }
 
 }

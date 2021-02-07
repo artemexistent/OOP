@@ -5,10 +5,11 @@ interface Graph {
     void create(int n);
     void insertRib(int x, int y, int z);
     void dfs(int v, boolean[] used);
+    void dijkstra(int v, boolean[] used, int[] distance);
 }
 
 class MatrixGraph implements Graph {
-    int matrix[][];
+    int[][] matrix;
 
     @Override
     public int getSize() {
@@ -34,6 +35,27 @@ class MatrixGraph implements Graph {
             if (matrix[v][i] != 0 && !used[i]) {
                 dfs(i, used);
             }
+        }
+
+    }
+
+    @Override
+    public void dijkstra(int v, boolean[] used, int[] distance) {
+        used[v] = true;
+        int nextVertex = -1;
+        for (int i = 0; i < matrix.length; i++) {
+            if (!used[i] && matrix[v][i] != 0) {
+                distance[i] = Math.min(distance[i], distance[v] + matrix[v][i]);
+                if (nextVertex == -1) {
+                    nextVertex = i;
+                }
+                if (distance[nextVertex] > distance[i]) {
+                    nextVertex = i;
+                }
+            }
+        }
+        if (nextVertex != -1) {
+            dijkstra(nextVertex, used, distance);
         }
 
     }
@@ -70,6 +92,27 @@ class ListGraph implements Graph {
             if (!used[j]) {
                 dfs(j, used);
             }
+        }
+    }
+
+    @Override
+    public void dijkstra(int v, boolean[] used, int[] distance) {
+        used[v] = true;
+        int nextVertex = -1;
+        for (int i = 0; i < list.size(); i++) {
+            int j = list.get(v).get(i)[0];
+            if (!used[j]) {
+                distance[j] = Math.min(distance[j], distance[v] + list.get(v).get(i)[1]);
+                if (nextVertex == -1) {
+                    nextVertex = j;
+                }
+                if (distance[nextVertex] > distance[j]) {
+                    nextVertex = j;
+                }
+            }
+        }
+        if (nextVertex != -1) {
+            dijkstra(nextVertex, used, distance);
         }
     }
 }
