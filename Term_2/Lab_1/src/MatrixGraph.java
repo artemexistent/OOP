@@ -9,6 +9,11 @@ class MatrixGraph implements Graph {
     }
 
     @Override
+    public Graphs getType() {
+        return Graphs.MATRIX;
+    }
+
+    @Override
     public void create(int n) {
         matrix = new int[n][n];
     }
@@ -62,4 +67,29 @@ class MatrixGraph implements Graph {
         }
         result.add(v);
     }
+
+    @Override
+    public void skeletonTree(int v, boolean[] used, Graph graphTree) {
+        used[v] = true;
+        for (int i = 0; i < matrix.length; i++) {
+            if (!used[i] && matrix[v][i] != 0) {
+                graphTree.insertRib(v, i, matrix[v][i]);
+                skeletonTree(i, used, graphTree);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringGraph = new StringBuilder();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++){
+                if (matrix[i][j] != 0) {
+                    stringGraph.append(i).append(" ").append(j).append(" ").append(matrix[i][j]).append("\n");
+                }
+            }
+        }
+        return stringGraph.toString();
+    }
+
 }

@@ -22,7 +22,7 @@ public class Main {
         }
 
         System.out.print("1. Searching for connectivity components\n" + "2. Dijkstra’s algorithm\n"
-         + "3. Topological sort\n");
+         + "3. Topological sort\n" + "4. Building a skeleton tree\n");
 
         int key = scanner.nextInt();
         switch (key) {
@@ -36,6 +36,9 @@ public class Main {
                 break;
             case 3:
                 sortVertex(graph);
+                break;
+            case 4:
+                buildTree(graph);
                 break;
         }
 
@@ -94,4 +97,22 @@ public class Main {
         }
 
     }
+
+    static void buildTree(Graph graph) {
+        Graph graphTree = Fabric.createGraph(graph.getType());
+        boolean[] used = new boolean[graph.getSize()];
+        for (int i = 0; i < used.length; i++) {
+            used[i] = false;
+        }
+
+        for (int i = 0; i < used.length; i++) {
+            if (!used[i]) {
+                graph.skeletonTree(i, used, graphTree);
+            }
+        }
+
+        System.out.println("Skeleton tree:");
+        System.out.println(graphTree);
+    }
+
 }

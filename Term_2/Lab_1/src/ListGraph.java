@@ -9,6 +9,11 @@ class ListGraph implements Graph {
     }
 
     @Override
+    public Graphs getType() {
+        return Graphs.LIST;
+    }
+
+    @Override
     public void create(int n) {
         list = new Vector<>(0);
         for (int i = 0; i < n; i++) {
@@ -64,5 +69,28 @@ class ListGraph implements Graph {
             }
         }
         result.add(v);
+    }
+
+    @Override
+    public void skeletonTree(int v, boolean[] used, Graph graphTree) {
+        used[v] = true;
+        for (int i = 0; i < list.size(); i++) {
+            int j = list.get(v).get(i)[0];
+            if (!used[j]) {
+                graphTree.insertRib(v, j, list.get(v).get(i)[1]);
+                skeletonTree(v, used, graphTree);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringGraph = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            for (int[] j : list.get(i)){
+                stringGraph.append(i).append(" ").append(j[0]).append(" ").append(j[1]).append("\n");
+            }
+        }
+        return stringGraph.toString();
     }
 }
