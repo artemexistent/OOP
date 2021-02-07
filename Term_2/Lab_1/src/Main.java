@@ -26,7 +26,7 @@ public class Main {
 
         int key = scanner.nextInt();
         switch (key) {
-            case 1 -> System.out.print("Number of components = " + searchComponents(graph));
+            case 1 -> System.out.print("Number of components = " + numberComponents(graph));
             case 2 -> {
                 System.out.print("Enter the initial vertex:");
                 int vertex = scanner.nextInt();
@@ -40,7 +40,7 @@ public class Main {
 
     }
 
-    static int searchComponents(Graph graph) {
+    static int numberComponents(Graph graph) {
         int numberOfComponents = 0;
         boolean[] used = new boolean[graph.getSize()];
         for (int i = 0; i < used.length; i++) {
@@ -113,7 +113,7 @@ public class Main {
 
     static void minBuildTree(Graph graph) {
 
-        if (searchComponents(graph) != 1) {
+        if (numberComponents(graph) != 1) {
             System.out.println("Impractical Building a Minimally Quilted Tree");
             return;
         }
