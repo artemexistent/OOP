@@ -20,6 +20,32 @@ public class Main {
             graph.insertRib(x, y, z);
         }
 
+        System.out.println("1. Searching for connectivity components\n" + "");
+
+        int key = scanner.nextInt();
+        switch (key) {
+            case 1:
+                System.out.print("Number of components = " + searchComponents(graph));
+        }
+
     }
+
+    static int searchComponents(Graph graph) {
+        int numberOfComponents = 0;
+        boolean[] used = new boolean[graph.getSize()];
+        for (int i = 0; i < used.length; i++) {
+            used[i] = false;
+        }
+
+        for (int i = 0; i < used.length; i++) {
+            if (!used[i]) {
+                numberOfComponents++;
+                graph.dfs(i, used);
+            }
+        }
+
+        return numberOfComponents;
+    }
+
 
 }
