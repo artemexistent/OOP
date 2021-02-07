@@ -6,6 +6,7 @@ interface Graph {
     void insertRib(int x, int y, int z);
     void dfs(int v, boolean[] used);
     void dijkstra(int v, boolean[] used, int[] distance);
+    void topologicalSort(int v, boolean[] used, Vector<Integer> result);
 }
 
 class MatrixGraph implements Graph {
@@ -58,6 +59,17 @@ class MatrixGraph implements Graph {
             dijkstra(nextVertex, used, distance);
         }
 
+    }
+
+    @Override
+    public void topologicalSort(int v, boolean[] used, Vector<Integer> result) {
+        used[v] = true;
+        for (int i = 0; i < matrix.length; i++) {
+            if (!used[i] && matrix[v][i] != 0) {
+                topologicalSort(i, used, result);
+            }
+        }
+        result.add(v);
     }
 }
 
@@ -114,6 +126,18 @@ class ListGraph implements Graph {
         if (nextVertex != -1) {
             dijkstra(nextVertex, used, distance);
         }
+    }
+
+    @Override
+    public void topologicalSort(int v, boolean[] used, Vector<Integer> result) {
+        used[v] = true;
+        for (int i = 0; i < list.size(); i++) {
+            int j = list.get(v).get(i)[0];
+            if (!used[j]) {
+                topologicalSort(j, used, result);
+            }
+        }
+        result.add(v);
     }
 }
 

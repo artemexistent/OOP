@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Main {
 
@@ -20,7 +21,8 @@ public class Main {
             graph.insertRib(x, y, z);
         }
 
-        System.out.println("1. Searching for connectivity components\n" + "2. Dijkstra’s algorithm\n");
+        System.out.print("1. Searching for connectivity components\n" + "2. Dijkstra’s algorithm\n"
+         + "3. Topological sort\n");
 
         int key = scanner.nextInt();
         switch (key) {
@@ -31,6 +33,9 @@ public class Main {
                 System.out.print("Enter the initial vertex:");
                 int vertex = scanner.nextInt();;
                 distanceSearch(graph, vertex);
+                break;
+            case 3:
+                sortVertex(graph);
                 break;
         }
 
@@ -70,4 +75,23 @@ public class Main {
         }
     }
 
+    static void sortVertex(Graph graph) {
+        boolean[] used = new boolean[graph.getSize()];
+        for (int i = 0; i < used.length; i++) {
+            used[i] = false;
+        }
+
+        Vector<Integer> result = new Vector<>(0);
+
+        for (int i = 0; i < used.length; i++) {
+            if (!used[i]) {
+                graph.topologicalSort(i, used, result);
+            }
+        }
+
+        for (int i : result) {
+            System.out.print(i + " ");
+        }
+
+    }
 }
