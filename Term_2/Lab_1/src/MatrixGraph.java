@@ -80,6 +80,35 @@ class MatrixGraph implements Graph {
     }
 
     @Override
+    public void minSkeletonTree(boolean[] used, Graph graphMinTree, int[] minRib, int[] wayRib) {
+        for (int v = 0; v < matrix.length; v++) {
+            int nextVertex = -1;
+            for (int i = 0; i < matrix.length; i++) {
+                if (!used[i] && matrix[v][i] != 0) {
+                    if (nextVertex == -1) {
+                        nextVertex = i;
+                    }
+                    if (minRib[i] < minRib[nextVertex]) {
+                        nextVertex = i;
+                    }
+                }
+            }
+            used[nextVertex] = true;
+
+            if (wayRib[nextVertex] != -1) {
+                graphMinTree.insertRib(nextVertex, wayRib[nextVertex], matrix[nextVertex][wayRib[nextVertex]]);
+            }
+
+            for (int i = 0; i < matrix.length; i++) {
+                if (matrix[nextVertex][i] < minRib[i] && matrix[nextVertex][i] != 0) {
+                    minRib[i] = matrix[nextVertex][i];
+                    wayRib[i] = nextVertex;
+                }
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringGraph = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {

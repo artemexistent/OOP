@@ -9,6 +9,7 @@ interface Graph {
     void dijkstra(int v, boolean[] used, int[] distance);
     void topologicalSort(int v, boolean[] used, Vector<Integer> result);
     void skeletonTree(int v, boolean[] used, Graph graphTree);
+    void minSkeletonTree(boolean[] used, Graph graphMinTree,int[] minRib, int[] wayRib);
 }
 
 class Fabric {

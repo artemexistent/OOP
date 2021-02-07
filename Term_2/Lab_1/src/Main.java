@@ -22,24 +22,20 @@ public class Main {
         }
 
         System.out.print("1. Searching for connectivity components\n" + "2. Dijkstra’s algorithm\n"
-         + "3. Topological sort\n" + "4. Building a skeleton tree\n");
+         + "3. Topological sort\n" + "4. Building a skeleton tree\n" + "5. Building a minimally skeletal tree\n");
 
         int key = scanner.nextInt();
         switch (key) {
-            case 1:
-                System.out.print("Number of components = " + searchComponents(graph));
-                break;
-            case 2:
+            case 1 -> System.out.print("Number of components = " + searchComponents(graph));
+            case 2 -> {
                 System.out.print("Enter the initial vertex:");
-                int vertex = scanner.nextInt();;
+                int vertex = scanner.nextInt();
+                ;
                 distanceSearch(graph, vertex);
-                break;
-            case 3:
-                sortVertex(graph);
-                break;
-            case 4:
-                buildTree(graph);
-                break;
+            }
+            case 3 -> sortVertex(graph);
+            case 4 -> buildTree(graph);
+            case 5 -> minBuildTree(graph);
         }
 
     }
@@ -115,4 +111,26 @@ public class Main {
         System.out.println(graphTree);
     }
 
+    static void minBuildTree(Graph graph) {
+
+        if (searchComponents(graph) != 1) {
+            System.out.println("Impractical Building a Minimally Quilted Tree");
+            return;
+        }
+
+        Graph graphMinTree = Fabric.createGraph(graph.getType());
+        boolean[] used = new boolean[graph.getSize()];
+        int[] minRib = new int[used.length];
+        int[] wayRib = new int[used.length];
+        for (int i = 0; i < used.length; i++) {
+            used[i] = false;
+            minRib[i] = Integer.MAX_VALUE;
+            wayRib[i] = -1;
+        }
+
+        graph.minSkeletonTree(used, graphMinTree, minRib, wayRib);
+
+        System.out.println("Skeleton tree:");
+        System.out.println(graphMinTree);
+    }
 }
