@@ -30,12 +30,29 @@ public class Main {
             case 2 -> {
                 System.out.print("Enter the initial vertex:");
                 int vertex = scanner.nextInt();
-                ;
-                distanceSearch(graph, vertex);
+                int[] distance = getDistance(graph, vertex);
+                System.out.printf("The distance from %d to all other vertices:\n", vertex);
+                for (int j : distance) {
+                    System.out.print(j + " ");
+                }
             }
-            case 3 -> sortVertex(graph);
-            case 4 -> buildTree(graph);
-            case 5 -> minBuildTree(graph);
+            case 3 -> {
+                int[] vertex = getSortVertex(graph);
+                for (int i : vertex) {
+                    System.out.print(i + " ");
+                }
+            }
+            case 4 -> {
+                Graph graphTree = getTree(graph);
+                System.out.println("Skeleton tree:");
+                System.out.println(graphTree);
+            }
+            case 5 -> {
+                Graph graphMinTree = getMinTree(graph);
+
+                System.out.println("Skeleton tree:");
+                System.out.println(graphMinTree);
+            }
         }
 
     }
@@ -57,7 +74,7 @@ public class Main {
         return numberOfComponents;
     }
 
-    static void distanceSearch(Graph graph, int vertex) {
+    static int[] getDistance(Graph graph, int vertex) {
         boolean[] used = new boolean[graph.getSize()];
         int[] distance = new int[used.length];
         for (int i = 0; i < used.length; i++) {
@@ -68,13 +85,10 @@ public class Main {
         distance[vertex] = 0;
 
         graph.dijkstra(vertex, used, distance);
-        System.out.printf("The distance from %d to all other vertices:\n", vertex);
-        for (int j : distance) {
-            System.out.print(j + " ");
-        }
+        return distance;
     }
 
-    static void sortVertex(Graph graph) {
+    static int[] getSortVertex(Graph graph) {
         boolean[] used = new boolean[graph.getSize()];
         for (int i = 0; i < used.length; i++) {
             used[i] = false;
@@ -88,14 +102,18 @@ public class Main {
             }
         }
 
-        for (int i : result) {
-            System.out.print(i + " ");
+        int[] answer = new int[result.size()];
+
+        for (int i = 0; i < result.size(); i++) {
+            answer[i] = result.get(i);
         }
 
+        return answer;
     }
 
-    static void buildTree(Graph graph) {
+    static Graph getTree(Graph graph) {
         Graph graphTree = Fabric.createGraph(graph.getType());
+        graphTree.create(graph.getSize());
         boolean[] used = new boolean[graph.getSize()];
         for (int i = 0; i < used.length; i++) {
             used[i] = false;
@@ -107,18 +125,18 @@ public class Main {
             }
         }
 
-        System.out.println("Skeleton tree:");
-        System.out.println(graphTree);
+        return graphTree;
     }
 
-    static void minBuildTree(Graph graph) {
+    static Graph getMinTree(Graph graph) {
 
         if (numberComponents(graph) != 1) {
             System.out.println("Impractical Building a Minimally Quilted Tree");
-            return;
+            return null;
         }
 
         Graph graphMinTree = Fabric.createGraph(graph.getType());
+        graphMinTree.create(graph.getSize());
         boolean[] used = new boolean[graph.getSize()];
         int[] minRib = new int[used.length];
         int[] wayRib = new int[used.length];
@@ -127,10 +145,10 @@ public class Main {
             minRib[i] = Integer.MAX_VALUE;
             wayRib[i] = -1;
         }
-
+        minRib[0] = 0;
         graph.minSkeletonTree(used, graphMinTree, minRib, wayRib);
 
-        System.out.println("Skeleton tree:");
-        System.out.println(graphMinTree);
+
+        return graphMinTree;
     }
 }

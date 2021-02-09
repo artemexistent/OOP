@@ -41,21 +41,25 @@ class ListGraph implements Graph {
     @Override
     public void dijkstra(int v, boolean[] used, int[] distance) {
         used[v] = true;
-        int nextVertex = -1;
+        Vector<Integer> nextVertex = new Vector<>(0);
         for (int i = 0; i < list.get(v).size(); i++) {
             int j = list.get(v).get(i)[0];
             if (!used[j]) {
                 distance[j] = Math.min(distance[j], distance[v] + list.get(v).get(i)[1]);
-                if (nextVertex == -1) {
-                    nextVertex = j;
-                }
-                if (distance[nextVertex] > distance[j]) {
-                    nextVertex = j;
-                }
+                nextVertex.add(j);
             }
         }
-        if (nextVertex != -1) {
-            dijkstra(nextVertex, used, distance);
+        while (nextVertex.size() != 0) {
+            int j = 0;
+            for (int i = 1; i < nextVertex.size(); i++) {
+                if (distance[nextVertex.get(i)] < distance[nextVertex.get(j)]) {
+                    j = i;
+                }
+            }
+            if (!used[nextVertex.get(j)]) {
+                dijkstra(nextVertex.get(j), used, distance);
+            }
+            nextVertex.remove(j);
         }
     }
 
@@ -78,7 +82,7 @@ class ListGraph implements Graph {
             int j = list.get(v).get(i)[0];
             if (!used[j]) {
                 graphTree.insertRib(v, j, list.get(v).get(i)[1]);
-                skeletonTree(v, used, graphTree);
+                skeletonTree(j, used, graphTree);
             }
         }
     }
@@ -98,16 +102,26 @@ class ListGraph implements Graph {
                     }
                 }
             }
-            used[nextVertex] = true;
+            if (nextVertex != -1) {
 
-            if (wayRib[nextVertex] != -1) {
-                graphMinTree.insertRib(nextVertex, wayRib[nextVertex], list.get(nextVertex).get(wayRib[nextVertex])[1]);
-            }
+                used[nextVertex] = true;
 
-            for (int i = 0; i < list.get(nextVertex).size(); i++) {
-                if (list.get(nextVertex).get(i)[1] < minRib[i]) {
-                    minRib[i] = list.get(nextVertex).get(i)[1];
-                    wayRib[i] = nextVertex;
+                if (wayRib[nextVertex] != -1) {
+                    int z = 0;
+                    for (int[] i : list.get(nextVertex)) {
+                        if (i[0] == wayRib[nextVertex]) {
+                            z = i[1];
+                            break;
+                        }
+                    }
+                    graphMinTree.insertRib(nextVertex, wayRib[nextVertex], z);
+                }
+
+                for (int i = 0; i < list.get(nextVertex).size(); i++) {
+                    if (list.get(nextVertex).get(i)[1] < minRib[list.get(nextVertex).get(i)[0]]) {
+                        minRib[list.get(nextVertex).get(i)[0]] = list.get(nextVertex).get(i)[1];
+                        wayRib[list.get(nextVertex).get(i)[0]] = nextVertex;
+                    }
                 }
             }
         }

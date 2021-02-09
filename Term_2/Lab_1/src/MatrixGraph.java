@@ -39,20 +39,24 @@ class MatrixGraph implements Graph {
     @Override
     public void dijkstra(int v, boolean[] used, int[] distance) {
         used[v] = true;
-        int nextVertex = -1;
+        Vector<Integer> nextVertex = new Vector<>(0);
         for (int i = 0; i < matrix.length; i++) {
             if (!used[i] && matrix[v][i] != 0) {
                 distance[i] = Math.min(distance[i], distance[v] + matrix[v][i]);
-                if (nextVertex == -1) {
-                    nextVertex = i;
-                }
-                if (distance[nextVertex] > distance[i]) {
-                    nextVertex = i;
-                }
+                nextVertex.add(i);
             }
         }
-        if (nextVertex != -1) {
-            dijkstra(nextVertex, used, distance);
+        while (nextVertex.size() != 0) {
+            int j = 0;
+            for (int i = 1; i < nextVertex.size(); i++) {
+                if (distance[nextVertex.get(i)] < distance[nextVertex.get(j)]) {
+                    j = i;
+                }
+            }
+            if (!used[nextVertex.get(j)]) {
+                dijkstra(nextVertex.get(j), used, distance);
+            }
+            nextVertex.remove(j);
         }
 
     }
