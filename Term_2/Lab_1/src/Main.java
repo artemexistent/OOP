@@ -1,8 +1,20 @@
 import java.util.Scanner;
 import java.util.Vector;
 
+/**
+ * @autor Artem Poltavskiy
+ * The main class, which is responsible for data input and process allocation
+ * @see Graph
+ * @see UnitTest
+ * @see ListGraph
+ * @see MatrixGraph
+ */
 public class Main {
 
+    /**
+     * Read data and call the necessary functions
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("1. Matrix\n" + "2. List\n" + "Enter type graph: ");
@@ -57,6 +69,11 @@ public class Main {
 
     }
 
+    /**
+     * finding the number of connectivity components
+     * @param graph given graph
+     * @return number of connectivity components
+     */
     static int numberComponents(Graph graph) {
         int numberOfComponents = 0;
         boolean[] used = new boolean[graph.getSize()];
@@ -74,6 +91,12 @@ public class Main {
         return numberOfComponents;
     }
 
+    /**
+     * Finding the shortest distances from the "vertex" to the total
+     * @param graph given graph
+     * @param vertex The vertex from which is the shortest distance
+     * @return distances from the "vertex" to the total
+     */
     static int[] getDistance(Graph graph, int vertex) {
         boolean[] used = new boolean[graph.getSize()];
         int[] distance = new int[used.length];
@@ -88,6 +111,12 @@ public class Main {
         return distance;
     }
 
+
+    /**
+     * Sorting graph vertices in topological order
+     * @param graph given graph
+     * @return The order of the vertices after sorting
+     */
     static int[] getSortVertex(Graph graph) {
         boolean[] used = new boolean[graph.getSize()];
         for (int i = 0; i < used.length; i++) {
@@ -111,6 +140,12 @@ public class Main {
         return answer;
     }
 
+
+    /**
+     * Build a tree, based on this graph
+     * @param graph given graph
+     * @return The subtree of the graph
+     */
     static Graph getTree(Graph graph) {
         Graph graphTree = Fabric.createGraph(graph.getType());
         graphTree.create(graph.getSize());
@@ -128,6 +163,11 @@ public class Main {
         return graphTree;
     }
 
+    /**
+     * Construct a minimal tree, based on this graph
+     * @param graph given graph
+     * @return The minimal subtree of the graph
+     */
     static Graph getMinTree(Graph graph) {
 
         if (numberComponents(graph) != 1) {

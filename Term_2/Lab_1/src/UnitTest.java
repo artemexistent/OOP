@@ -12,6 +12,10 @@ import java.util.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The unit tests each function from {@link Main}
+ */
+
 class UnitTest {
 
     Graph graph;

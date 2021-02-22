@@ -1,5 +1,11 @@
 import java.util.Vector;
 
+/**
+ * The class of the graph stored by the matrix
+ * @see Graph
+ */
+
+
 class MatrixGraph implements Graph {
     int[][] matrix;
 

@@ -1,5 +1,11 @@
 import java.util.Vector;
 
+/**
+ * The class of the graph stored by the adjacency list
+ * @see Graph
+ */
+
+
 class ListGraph implements Graph {
     Vector<Vector<int[]>> list;
 
@@ -26,6 +32,7 @@ class ListGraph implements Graph {
         list.get(x).add(new int[]{y, z});
         list.get(y).add(new int[]{x, z});
     }
+
 
     @Override
     public void dfs(int v, boolean[] used) {
