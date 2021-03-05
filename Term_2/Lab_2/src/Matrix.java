@@ -1,3 +1,7 @@
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Arrays;
+
 public class Matrix {
     private Box[][] matrix;
     private int n,m;
@@ -96,6 +100,17 @@ public class Matrix {
         return result;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < m; j ++) {
+                s.append(matrix[i][j]).append(" ");
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
 }
 
 class Box {
@@ -121,4 +136,11 @@ class Box {
         return new Box(a * this.number);
     }
 
+    @Override
+    public String toString() {
+        if(number == (int) number)
+            return String.format("%d",(int)number);
+        else
+            return String.format("%s",number);
+    }
 }
