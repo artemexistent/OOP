@@ -18,6 +18,11 @@ public class Matrix {
         this.matrix = matrix;
     }
 
+    public Matrix(Box box) {
+        this.n = this.m = 1;
+        matrix = new Box[][]{{box}};
+    }
+
     public Matrix amount(Matrix a) {
         Box[][] result = new Box[a.n][a.m];
         for (int i = 0; i < a.n; i ++) {
@@ -33,7 +38,7 @@ public class Matrix {
         for (int i = 0; i < this.n; i ++) {
             for (int j = 0; j < a.m; j ++) {
                 for (int k = 0; k < Math.min(this.matrix[i].length, a.matrix.length); k++) {
-                    result[i][j] = result[i][j].amount(this.matrix[i][k].multiply(a.matrix[k][j]));
+                    result[i][j] = this.matrix[i][k].multiply(a.matrix[k][j]);
                 }
             }
         }
