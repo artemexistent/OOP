@@ -1,6 +1,6 @@
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Arrays;
+/**
+ * This class corresponds to a matrix and all operations on them take place in it
+ */
 
 public class Matrix {
     private Box[][] matrix;
@@ -23,6 +23,11 @@ public class Matrix {
         matrix = new Box[][]{{box}};
     }
 
+    /**
+     * addition of two matrices
+     * @param a
+     * @return result of addition
+     */
     public Matrix amount(Matrix a) {
         Box[][] result = new Box[a.n][a.m];
         for (int i = 0; i < a.n; i ++) {
@@ -33,6 +38,11 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * multiply of two matrix
+     * @param a
+     * @return result of multiply
+     */
     public Matrix multiply(Matrix a) {
         Box[][] result = new Box[this.n][a.m];
         for (int i = 0; i < this.n; i ++) {
@@ -45,6 +55,11 @@ public class Matrix {
         return new Matrix(result);
     }
 
+
+    /**
+     * matrix mapping relative to the main diagonal
+     * @return result of mapping
+     */
     public Matrix maidDiagonal() {
         Box[][] result = new Box[this.m][this.n];
         for (int i = 0; i < this.n; i++) {
@@ -55,6 +70,10 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * matrix mapping relative to the side diagonal
+     * @return result of mapping
+     */
     public Matrix sideDiagonal() {
         Box[][] result = new Box[this.m][this.n];
         for (int i = 0; i < this.n; i++) {
@@ -65,7 +84,10 @@ public class Matrix {
         return new Matrix(result);
     }
 
-
+    /**
+     * matrix mapping relative to the vertical line
+     * @return result of mapping
+     */
     public Matrix lineVertical() {
         Box[][] result = new Box[this.n][this.m];
         for (int i = 0; i < this.n; i++) {
@@ -76,6 +98,10 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * matrix mapping relative to the horizontal line
+     * @return result of mapping
+     */
     public Matrix lineHorizontal() {
         Box[][] result = new Box[this.n][this.m];
         for (int i = 0; i < this.n; i++) {
@@ -84,6 +110,10 @@ public class Matrix {
         return new Matrix(result);
     }
 
+    /**
+     * finding determinate
+     * @return determinate of matrix
+     */
     public Box determinate() {
         if (this.n == 2) {
             return this.matrix[0][0].multiply(this.matrix[1][1]).amount(this.matrix[0][1].multiply(this.matrix[1][0]).multiply(-1.0));
@@ -118,6 +148,11 @@ public class Matrix {
     }
 }
 
+/**
+ * this class was created to store different types of numbers and operations on them
+ */
+
+
 class Box {
     private double number = 0.0;
 
@@ -129,14 +164,28 @@ class Box {
         number = Double.parseDouble(s);
     }
 
+    /**
+     * addition of two numbers
+     * @param a
+     * @return result of addition
+     */
     public Box amount(Box a) {
         return new Box(a.number + this.number);
     }
 
+    /**
+     * multiply of two numbers
+     * @param a
+     * @return result of multiply
+     */
     public Box multiply(Box a) {
         return new Box(a.number * this.number);
     }
-
+    /**
+     * multiply of two numbers
+     * @param a
+     * @return result of multiply
+     */
     public Box multiply(double a) {
         return new Box(a * this.number);
     }

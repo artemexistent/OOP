@@ -6,6 +6,10 @@ import java.util.regex.Pattern;
 
 import static javax.swing.GroupLayout.Alignment.LEADING;
 
+/**
+ * GUI
+ */
+
 public class Begin {
     private JTabbedPane tabbedPane1;
     private JPanel panel1;
@@ -28,7 +32,9 @@ public class Begin {
     private JTextField[][] textFields2;
     static JFrame frame;
 
-
+    /**
+     * constructor + listener
+     */
     Begin() {
         reloadMatrix();
         reloadMatrixPage2();
@@ -154,6 +160,10 @@ public class Begin {
         frame.setVisible(true);
     }
 
+    /**
+     * reading matrix from text field of user
+     */
+
     public void reloadMatrix() {
         int n = comboBox2.getSelectedIndex() + 1;
         int m = comboBox3.getSelectedIndex() + 1;
@@ -178,6 +188,9 @@ public class Begin {
         }
     }
 
+    /**
+     * reading matrix from text field of user
+     */
     public void reloadMatrixPage2() {
         int n = comboBox6.getSelectedIndex() + 1;
         int m = comboBox5.getSelectedIndex() + 1;
@@ -202,6 +215,9 @@ public class Begin {
         }
     }
 
+    /**
+     * reading matrix from text field of user
+     */
     public void reloadMatrixPage2_1() {
         int n = comboBox8.getSelectedIndex() + 1;
         int m = comboBox7.getSelectedIndex() + 1;
@@ -225,6 +241,10 @@ public class Begin {
             }
         }
     }
+
+    /**
+     * checking dates which user have written
+     */
 
     public boolean checkAndGetDates(Box[][] matrix) {
         for (int i = 0; i < textFields.length; i ++) {
@@ -250,6 +270,10 @@ public class Begin {
         return true;
     }
 
+
+    /**
+     * checking dates which user have written
+     */
     public boolean checkAndGetDates1(Box[][] matrix) {
         for (int i = 0; i < textFields1.length; i ++) {
             for (int j = 0; j < textFields1[i].length; j++) {
@@ -274,6 +298,10 @@ public class Begin {
         return true;
     }
 
+
+    /**
+     * checking dates which user have written
+     */
     public boolean checkAndGetDates2(Box[][] matrix) {
         for (int i = 0; i < textFields2.length; i ++) {
             for (int j = 0; j < textFields2[i].length; j++) {
@@ -298,6 +326,9 @@ public class Begin {
         return true;
     }
 
+    /**
+     * checking dates which user have written
+     */
     public boolean checkMulty() {
         if (comboBox4.getSelectedIndex() == 1) {
             if (comboBox5.getSelectedIndex() != comboBox8.getSelectedIndex()) {
