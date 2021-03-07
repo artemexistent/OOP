@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.text.LabelView;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 import java.util.regex.Pattern;
 
 import static javax.swing.GroupLayout.Alignment.LEADING;
@@ -27,9 +28,14 @@ public class Begin {
     private JPanel Matrix1;
     private JPanel Matrix2;
     private JLabel operation;
+    private JComboBox comboBox9;
+    private JComboBox comboBox10;
+    private JButton resultButton;
+    private JPanel System;
     private JTextField[][] textFields;
     private JTextField[][] textFields1;
     private JTextField[][] textFields2;
+    private JTextField[][] system;
     static JFrame frame;
 
     /**
@@ -39,6 +45,7 @@ public class Begin {
         reloadMatrix();
         reloadMatrixPage2();
         reloadMatrixPage2_1();
+        reloadSystem();
 
         comboBox3.addActionListener(new ActionListener() {
             @Override
@@ -87,6 +94,19 @@ public class Begin {
                 }
             }
         });
+        comboBox9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadSystem();
+            }
+        });
+        comboBox10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadSystem();
+            }
+        });
+
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,7 +164,29 @@ public class Begin {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
-
+        resultButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Box[][] matrix = new Box[system.length][system[0].length];
+                if (!checkAndGetDates3(matrix)) {
+                    return;
+                }
+                Matrix a = new Matrix(matrix);
+                Vector<Box> answer = new Vector<>();
+                int res = a.gauss(answer);
+                if (res == Integer.MAX_VALUE) {
+                    JOptionPane.showMessageDialog(frame, "This system cannot have a solution ","Result",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                StringBuilder s = new StringBuilder();
+                for (int i = 0; i < answer.size(); i ++) {
+                    s.append("x").append(i + 1).append(" = ").append(answer.get(i)).append("\n");
+                }
+                JOptionPane.showMessageDialog(frame, s.toString(),"Result",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
     }
 
 
@@ -243,6 +285,34 @@ public class Begin {
     }
 
     /**
+     * reading matrix from text field of user
+     */
+    public void reloadSystem() {
+        int n = comboBox9.getSelectedIndex() + 1;
+        int m = comboBox10.getSelectedIndex() + 2;
+        system = new JTextField[n][m];
+        System.removeAll();
+        //Matrix.setPreferredSize(new Dimension(15 * n + 10 * (n - 1), 15 * m + 10 * (m - 1)));
+        System.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.ipadx = 15;
+        for (int i = 0; i < n; i ++) {
+            gridBagConstraints.gridy = i;
+            for (int j = 0; j < m; j++) {
+                gridBagConstraints.gridx = 2 * j;
+                system[i][j] = new JTextField("0", 1);
+                System.add(system[i][j], gridBagConstraints);
+                gridBagConstraints.gridx = 2 * j + 1;
+                System.add(new JLabel((j < m - 1 ? "x" + (j + 1) + ( j == m - 2 ? " = " : " + ") : "")), gridBagConstraints);
+            }
+        }
+    }
+    /**
      * checking dates which user have written
      */
 
@@ -325,6 +395,26 @@ public class Begin {
         }
         return true;
     }
+
+    /**
+     * checking dates which user have written
+     */
+    public boolean checkAndGetDates3(Box[][] matrix) {
+        for (int i = 0; i < system.length; i ++) {
+            for (int j = 0; j < system[i].length; j++) {
+                try {
+                    matrix[i][j] = new Box(Double.parseDouble(system[i][j].getText()));
+                } catch(Exception er) {
+                    JOptionPane.showMessageDialog(frame, "The data is not entered correctly.\n" +
+                                    "The data must contain ONLY numbers.\n" + system[i][j].getText(),"Backup problem",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     /**
      * checking dates which user have written

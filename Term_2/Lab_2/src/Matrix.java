@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 /**
  * This class corresponds to a matrix and all operations on them take place in it
  */
@@ -135,6 +137,69 @@ public class Matrix {
         return result;
     }
 
+    /**
+     * the Gaussian method for finding the solution of the system
+     * @param answer solution of the system
+     * @return
+     */
+    int gauss(Vector<Box> answer) {
+        int n = this.n;
+        int m = this.m - 1;
+        double EPS = 1.0E-3;
+        int[] where = new int[m];
+        for (int i  = 0; i < m; i ++) {
+            where[i] = -1;
+        }
+
+        for (int col = 0, row = 0; col < m && row < n; ++col) {
+            int sel = row;
+            for (int i=row; i<n; ++i)
+                if (this.matrix[i][col].abs().swap(this.matrix[sel][col].abs()))
+                    sel = i;
+            if (!this.matrix[sel][col].abs().swap(new Box(EPS)))
+                continue;
+            for (int i=col; i<=m; ++i)
+                swap (this.matrix[sel][i], this.matrix[row][i]);
+            where[col] = row;
+
+            for (int i=0; i<n; ++i)
+                if (i != row) {
+                    double c = this.matrix[i][col].del(this.matrix[row][col]);
+                    for (int j=col; j<=m; ++j)
+                        this.matrix[i][j] = this.matrix[i][j].minus(this.matrix[row][j].multiply(c));
+                }
+            ++row;
+        }
+
+        for (int i = 0; i < m; i ++) {
+            answer.add(new Box(0));
+        }
+
+        for (int i=0; i<m; ++i)
+            if (where[i] != -1)
+                answer.set(i, new Box(this.matrix[where[i]][m].del(this.matrix[where[i]][i])));
+        for (int i=0; i<n; ++i) {
+            Box sum = new Box(0);
+            for (int j=0; j<m; ++j)
+                sum = sum.amount(answer.get(j).multiply(this.matrix[i][j]));
+            if ((sum.minus(this.matrix[i][m])).abs().swap(new Box(EPS)))
+                return 0;
+        }
+
+        for (int i=0; i<m; ++i)
+            if (where[i] == -1)
+                return Integer.MAX_VALUE;
+        return 1;
+
+
+    }
+
+    private void swap(Box matrix, Box matrix1) {
+        Box c = matrix;
+        matrix = matrix1;
+        matrix1 = c;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -190,6 +255,17 @@ class Box {
         return new Box(a * this.number);
     }
 
+    public Box abs() {
+        return new Box(Math.abs(number));
+    }
+
+    public boolean swap(Box a) {
+        if (this.number > a.number) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         if(number == (int) number)
@@ -197,4 +273,13 @@ class Box {
         else
             return String.format("%s",number);
     }
+
+    public double del(Box matrix) {
+        return this.number / matrix.number;
+    }
+
+    public Box minus(Box matrix) {
+        return new Box(this.number - matrix.number);
+    }
+
 }
