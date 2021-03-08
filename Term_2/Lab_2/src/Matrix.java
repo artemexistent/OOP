@@ -194,6 +194,35 @@ public class Matrix {
 
     }
 
+    /**
+     * Finding the matrix rank
+     * @return matrix rank
+     */
+    int rank() {
+        int rank = Math.max(n, m);
+        boolean[] line_used = new boolean[n];
+        Box EPS = new Box(1.0E-3);
+
+        for (int i=0; i<m; ++i) {
+            int j;
+            for (j=0; j<n; ++j)
+                if (!line_used[j] && this.matrix[i][j].abs().swap(EPS))
+                    break;
+            if (j == n)
+                --rank;
+            else {
+                line_used[j] = true;
+                for (int p=i+1; p<m; ++p)
+                    this.matrix[j][p] = this.matrix[j][p].del1(this.matrix[j][i]);
+                for (int k=0; k<n; ++k)
+                    if (k != j && this.matrix[k][i].abs().swap(EPS))
+                        for (int p=i+1; p<m; ++p)
+                            this.matrix[k][p] = this.matrix[k][p].minus(this.matrix[j][p].multiply(this.matrix[k][i]));
+            }
+        }
+        return rank;
+    }
+
     private void swap(Box matrix, Box matrix1) {
         Box c = matrix;
         matrix = matrix1;
@@ -274,10 +303,30 @@ class Box {
             return String.format("%s",number);
     }
 
+    /**
+     * division of two numbers
+     * @param matrix
+     * @return result of division
+     */
     public double del(Box matrix) {
         return this.number / matrix.number;
     }
 
+    /**
+     * division of two numbers
+     * @param matrix
+     * @return result of division
+     */
+    public Box del1(Box matrix) {
+        return new Box(this.number / matrix.number);
+    }
+
+
+    /**
+     * subtracting two numbers
+     * @param matrix
+     * @return result of subtracting
+     */
     public Box minus(Box matrix) {
         return new Box(this.number - matrix.number);
     }

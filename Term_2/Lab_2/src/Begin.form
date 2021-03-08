@@ -36,6 +36,7 @@
                     <item value="Matrix transport with respect to the vertical line"/>
                     <item value="Matrix transport with respect to the horizontal line"/>
                     <item value="Finding the determinant"/>
+                    <item value="Finding the rank"/>
                   </model>
                 </properties>
               </component>

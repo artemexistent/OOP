@@ -130,6 +130,9 @@ public class Begin {
                         break;
                     case 4:
                         a = new Matrix(a.determinate());
+                        break;
+                    case 5:
+                        a = new Matrix(new Box[][]{{new Box(a.rank())}});
                 }
                 JOptionPane.showMessageDialog(frame, a,"Result",
                         JOptionPane.INFORMATION_MESSAGE);
