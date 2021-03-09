@@ -1,10 +1,12 @@
+import javax.swing.*;
+import java.io.*;
 import java.util.Vector;
 
 /**
  * This class corresponds to a matrix and all operations on them take place in it
  */
 
-public class Matrix {
+public class Matrix  implements Serializable{
     private Box[][] matrix;
     private int n,m;
 
@@ -240,6 +242,54 @@ public class Matrix {
         }
         return s.toString();
     }
+
+    public String write() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < m; j ++) {
+                s.append(matrix[i][j]).append(" ");
+            }
+            s.append("<br/>");
+        }
+        return s.toString();
+    }
+
+    public String write(Matrix a) {
+        StringBuilder s = new StringBuilder("<pre>");
+        for (int i = 0; i < n; i ++) {
+            s.append("(");
+            for (int j = 0; j < m; j ++) {
+                s.append(matrix[i][j]).append(" ");
+            }
+
+
+            if (i == n - 1) {
+                s.append(") and (");
+            } else {
+                s.append(")     (");
+            }
+
+            for (int j = 0; j < a.m; j ++) {
+                s.append(a.matrix[i][j]).append(" ");
+            }
+            s.append(")<br/>");
+        }
+        return s.toString();
+    }
+
+    public String writeSystem() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < m; j++) {
+                    s.append(matrix[i][j]).append(" ");
+                    s.append((j < m - 1 ? "x" + (j + 1) + (j == m - 2 ? " = " : " + ") : ""));
+            }
+            s.append("<br/>");
+        }
+        return s.toString();
+    }
+
+
 }
 
 /**
@@ -247,11 +297,13 @@ public class Matrix {
  */
 
 
-class Box {
+class Box implements Serializable{
+    public boolean isNull;
     private double number = 0.0;
 
     public Box(double number) {
         this.number = number;
+        isNull = (number == 0);
     }
 
     public Box(String s) {

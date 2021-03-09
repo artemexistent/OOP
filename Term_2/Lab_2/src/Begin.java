@@ -1,12 +1,8 @@
 import javax.swing.*;
-import javax.swing.text.LabelView;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.Vector;
-import java.util.regex.Pattern;
-
-import static javax.swing.GroupLayout.Alignment.LEADING;
-
 /**
  * GUI
  */
@@ -32,20 +28,31 @@ public class Begin {
     private JComboBox comboBox10;
     private JButton resultButton;
     private JPanel System;
+    private JScrollPane pane;
+    private JPanel pane2;
+    private JPanel pane1;
     private JTextField[][] textFields;
     private JTextField[][] textFields1;
     private JTextField[][] textFields2;
     private JTextField[][] system;
     static JFrame frame;
 
+    Vector<History> vector = new Vector<>();
+
+
     /**
      * constructor + listener
      */
-    Begin() {
+    Begin() throws IOException {
+
+
+
+
         reloadMatrix();
         reloadMatrixPage2();
         reloadMatrixPage2_1();
         reloadSystem();
+        reloadHistory(vector);
 
         comboBox3.addActionListener(new ActionListener() {
             @Override
@@ -115,6 +122,9 @@ public class Begin {
                     return;
                 }
                 Matrix a = new Matrix(matrix);
+
+                History history = new History(new Matrix[]{new Matrix(matrix)}, 1, (String) comboBox1.getSelectedItem());
+
                 switch (comboBox1.getSelectedIndex()) {
                     case 0:
                         a = a.maidDiagonal();
@@ -136,6 +146,10 @@ public class Begin {
                 }
                 JOptionPane.showMessageDialog(frame, a,"Result",
                         JOptionPane.INFORMATION_MESSAGE);
+
+                history.setResult(a);
+
+                save(history);
             }
         });
         button2.addActionListener(new ActionListener() {
@@ -154,6 +168,7 @@ public class Begin {
                 }
                 Matrix a = new Matrix(matrix1);
                 Matrix b = new Matrix(matrix2);
+                History history = new History(new Matrix[]{new Matrix(matrix1), new Matrix(matrix2)}, 2, (String) comboBox4.getSelectedItem());
 
                 switch (comboBox4.getSelectedIndex()) {
                     case 0:
@@ -165,6 +180,10 @@ public class Begin {
                 }
                 JOptionPane.showMessageDialog(frame, a,"Result",
                         JOptionPane.INFORMATION_MESSAGE);
+
+                history.setResult(a);
+
+                save(history);
             }
         });
         resultButton.addActionListener(new ActionListener() {
@@ -175,6 +194,10 @@ public class Begin {
                     return;
                 }
                 Matrix a = new Matrix(matrix);
+
+                History history = new History(new Matrix[]{new Matrix(matrix)}, 3, "Solve the system");
+
+
                 Vector<Box> answer = new Vector<>();
                 int res = a.gauss(answer);
                 if (res == Integer.MAX_VALUE) {
@@ -188,13 +211,17 @@ public class Begin {
                 }
                 JOptionPane.showMessageDialog(frame, s.toString(),"Result",
                         JOptionPane.INFORMATION_MESSAGE);
+
+                history.setResultSystem(s.toString());
+
+                save(history);
             }
         });
     }
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         frame = new JFrame("Matrix");
 
         Begin begin = new Begin();
@@ -439,6 +466,49 @@ public class Begin {
         return true;
     }
 
+    public void reloadHistory(Vector<History> vector) {
+        pane1.removeAll();
+        pane1.setLayout(new GridBagLayout());
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+//        gridBagConstraints.gridwidth = 1;
+//        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.ipady = 15;
+        gridBagConstraints.ipadx = 15;
 
+        int i = 0;
+        gridBagConstraints.gridx = 0;
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("src/History.txt"))){
+            History a = (History) in.readObject();
+            while (a != null) {
+                gridBagConstraints.gridy = i;
+                vector.add(a);
+                pane1.add(new JLabel(a.toString()), gridBagConstraints);
+                a = (History) in.readObject();
+                i ++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void save(History history){
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("src/History.txt", false))){
+            for (History i : vector) {
+                out.writeObject(i);
+            }
+            out.writeObject(history);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        vector.clear();
+        reloadHistory(vector);
+    }
 
 }
