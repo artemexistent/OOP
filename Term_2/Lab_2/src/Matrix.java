@@ -27,6 +27,12 @@ public class Matrix  implements Serializable{
         matrix = new Box[][]{{box}};
     }
 
+    public Matrix(Matrix matrix) {
+        this.n = matrix.matrix.length;
+        this.m = matrix.matrix[0].length;
+        this.matrix = matrix.matrix;
+    }
+
     /**
      * addition of two matrices
      * @param a
