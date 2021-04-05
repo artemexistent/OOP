@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.sql.Time;
+import java.util.Date;
+import java.util.Random;
 import java.util.Vector;
 /**
  * GUI
@@ -31,6 +34,16 @@ public class Begin {
     private JScrollPane pane;
     private JPanel pane2;
     private JPanel pane1;
+    private JComboBox comboBox11;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JButton startButton;
+    private JComboBox comboBox12;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JTextField textField5;
+    private JTextField textField6;
+    private JButton startButton1;
     private JTextField[][] textFields;
     private JTextField[][] textFields1;
     private JTextField[][] textFields2;
@@ -215,6 +228,70 @@ public class Begin {
                 history.setResultSystem(s.toString());
 
                 save(history);
+            }
+        });
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Box[][] matrix = checkDates();
+                if (matrix == null) {
+                    return;
+                }
+                Date start = new Date();
+                Matrix a = new Matrix(matrix);
+                long m0 = Runtime.getRuntime().freeMemory();
+                switch (comboBox11.getSelectedIndex()) {
+                    case 0:
+                        a = a.maidDiagonal();
+                        break;
+                    case 1:
+                        a = a.sideDiagonal();
+                        break;
+                    case 2:
+                        a = a.lineVertical();
+                        break;
+                    case 3:
+                        a = a.lineHorizontal();
+                        break;
+                    case 4:
+                        a = new Matrix(a.determinate());
+                        break;
+                    case 5:
+                        a = new Matrix(new Box[][]{{new Box(a.rank())}});
+                }
+                JOptionPane.showMessageDialog(frame, "Time: " + ((new Date()).getTime() - start.getTime())
+                                + "\nSize: " + (-Runtime.getRuntime().freeMemory() + m0),"Result",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        });
+        startButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Box[][] matrix = checkDates1();
+                if (matrix == null) {
+                    return;
+                }
+                Box[][] matrix1 = checkDates11();
+                if (matrix1 == null) {
+                    return;
+                }
+                Matrix a = new Matrix(matrix);
+                Matrix b = new Matrix(matrix1);
+                Date start = new Date();
+                long m0 = Runtime.getRuntime().freeMemory();
+                switch (comboBox12.getSelectedIndex()) {
+                    case 0:
+                        a = a.amount(b);
+                        break;
+                    case 1:
+                        a = a.multiply(b);
+                        break;
+                }
+                JOptionPane.showMessageDialog(frame, "Time: " + ((new Date()).getTime() - start.getTime())
+                                + "\nSize: " + (-Runtime.getRuntime().freeMemory() + m0),"Result",
+                        JOptionPane.INFORMATION_MESSAGE);
+
             }
         });
     }
@@ -509,6 +586,67 @@ public class Begin {
         }
         vector.clear();
         reloadHistory(vector);
+    }
+
+    Box[][] checkDates() {
+        try {
+            int n = Integer.parseInt(String.valueOf(textField1.getText()));
+            int m = Integer.parseInt(String.valueOf(textField2.getText()));
+            Box[][] matrix = new Box[n][m];
+            Random random = new Random();
+            for (int i = 0; i < n; i ++) {
+                for (int j = 0; j < m; j ++) {
+                    matrix[i][j] = new Box(random.nextInt());
+                }
+            }
+            return matrix;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "The data is not entered correctly.\n" +
+                            "The data must contain ONLY numbers.\n","Backup problem",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+
+    }
+    Box[][] checkDates1() {
+        try {
+            int n = Integer.parseInt(String.valueOf(textField3.getText()));
+            int m = Integer.parseInt(String.valueOf(textField4.getText()));
+            Box[][] matrix = new Box[n][m];
+            Random random = new Random();
+            for (int i = 0; i < n; i ++) {
+                for (int j = 0; j < m; j ++) {
+                    matrix[i][j] = new Box(random.nextInt());
+                }
+            }
+            return matrix;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "The data is not entered correctly.\n" +
+                            "The data must contain ONLY numbers.\n","Backup problem",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+
+    }
+    Box[][] checkDates11() {
+        try {
+            int n = Integer.parseInt(String.valueOf(textField5.getText()));
+            int m = Integer.parseInt(String.valueOf(textField6.getText()));
+            Box[][] matrix = new Box[n][m];
+            Random random = new Random();
+            for (int i = 0; i < n; i ++) {
+                for (int j = 0; j < m; j ++) {
+                    matrix[i][j] = new Box(random.nextInt());
+                }
+            }
+            return matrix;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame, "The data is not entered correctly.\n" +
+                            "The data must contain ONLY numbers.\n","Backup problem",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+
     }
 
 }
