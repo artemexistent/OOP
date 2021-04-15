@@ -1,3 +1,7 @@
+/**
+ * ship description class
+ */
+
 public class Ship {
     private int count;
     private int size;
@@ -32,6 +36,9 @@ public class Ship {
     }
 }
 
+/**
+ * ship type
+ */
 enum Type {
-    BANANAS, SANDS, MELONS, STONES, GARBAGE;
+    BANANAS, SANDS, MELONS, STONES, GARBAGE
 }
