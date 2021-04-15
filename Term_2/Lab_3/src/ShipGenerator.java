@@ -1,5 +1,7 @@
 import java.util.Random;
-
+/**
+ * generator of ship class
+ */
 public class ShipGenerator {
 
     private Type getRandomType() {
