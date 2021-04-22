@@ -3,11 +3,11 @@
  */
 
 public class PierLoader implements Runnable {
-
+    private Tunnel tunnel;
     private Type shipType;
 
-    public PierLoader(Type shipType) {
-
+    public PierLoader(Tunnel tunnel, Type shipType) {
+        this.tunnel = tunnel;
         this.shipType =shipType;
     }
 
@@ -20,7 +20,7 @@ public class PierLoader implements Runnable {
 
                 //Time to load the goods
                 Thread.sleep(500);
-                Ship ship = ;
+                Ship ship = tunnel.get(shipType);
                 if(ship!=null)
                     while (ship.countCheck()){
                         Thread.sleep(100);
