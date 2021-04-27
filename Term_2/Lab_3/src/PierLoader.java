@@ -18,7 +18,6 @@ public class PierLoader implements Runnable {
             try {
                 Thread.currentThread().setName("Loader "+shipType);
 
-                //Time to load the goods
                 Thread.sleep(500);
                 Ship ship = tunnel.get(shipType);
                 if(ship!=null)

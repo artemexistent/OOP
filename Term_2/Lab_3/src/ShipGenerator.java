@@ -35,6 +35,6 @@ public class ShipGenerator implements Runnable {
 
     private int getRandomSize() {
         Random random = new Random();
-        return random.nextInt();
+        return random.nextInt(1000);
     }
 }
