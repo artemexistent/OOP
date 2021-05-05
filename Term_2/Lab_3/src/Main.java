@@ -1,9 +1,10 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Main {
+public class Main implements Runnable{
 
-    public static void main(String[] args) {
+
+    void main() {
         System.out.println("Available number of cores: " + Runtime.getRuntime().availableProcessors());
 
         Tunnel tunnel = new Tunnel();
@@ -26,5 +27,10 @@ public class Main {
         service.execute(pierLoader5);
 
         service.shutdown();
+    }
+
+    @Override
+    public void run() {
+        main();
     }
 }

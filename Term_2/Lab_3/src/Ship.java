@@ -36,9 +36,4 @@ public class Ship {
     }
 }
 
-/**
- * ship type
- */
-enum Type {
-    BANANAS, SANDS, MELONS, STONES, GARBAGE
-}
+
