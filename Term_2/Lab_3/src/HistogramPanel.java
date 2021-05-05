@@ -151,14 +151,13 @@ public class HistogramPanel extends JPanel
         panel.addHistogramColumn("GARBAGE", 1, Color.MAGENTA);
         panel.layoutHistogram();
 
+
         frame = new JFrame("Histogram Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add( panel );
         frame.setLocationByPlatform( true );
         frame.pack();
         frame.setVisible( true );
-
-
 
     }
 
@@ -171,7 +170,7 @@ public class HistogramPanel extends JPanel
         frame.pack();
     }
 
-    public static void main(String[] args)
+    public static void start()
     {
         EventQueue.invokeLater(new Runnable()
         {

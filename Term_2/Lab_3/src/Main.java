@@ -3,13 +3,14 @@ import java.util.concurrent.Executors;
 
 public class Main implements Runnable{
 
+    public static int number;
 
     void main() {
         System.out.println("Available number of cores: " + Runtime.getRuntime().availableProcessors());
 
         Tunnel tunnel = new Tunnel();
 
-        ShipGenerator shipGenerator = new ShipGenerator(tunnel, 10);
+        ShipGenerator shipGenerator = new ShipGenerator(tunnel, number);
 
         PierLoader pierLoader1 = new PierLoader(tunnel, Type.BANANAS);
         PierLoader pierLoader2 = new PierLoader(tunnel, Type.GARBAGE);
